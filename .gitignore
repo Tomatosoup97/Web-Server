@@ -29,3 +29,6 @@ lo
 
 # IDE
 .idea
+
+build/
+cmake-build-debug

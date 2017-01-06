@@ -1,7 +1,16 @@
 cmake_minimum_required(VERSION 3.6)
-project(web_server)
+project(WebServer)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp)
-add_executable(web_server ${SOURCE_FILES})
+include_directories(src)
+include_directories(tests)
+include_directories(lib)
+
+add_subdirectory(src)
+add_subdirectory(tests)
+
+# Boost.Asio
+set(BOOST_COMPONENTS system thread filesystem date_time)
+find_package(Boost 1.54.0 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})

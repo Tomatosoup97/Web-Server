@@ -4,8 +4,8 @@ Simple version of HTTP Web Server.
 
 ## Upcoming features:
 1. Persistent connection (keep-alive)
-1. Compatible with HTTP version 1.1
-1. Independent from platform currently used
+1. HTTP version 1.1 compatibility
+1. Platform Independent
 1. Supported HTTP verbs (methods):
     * GET
     * POST
