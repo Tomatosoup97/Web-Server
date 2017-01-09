@@ -24,9 +24,9 @@ _which might not be accomplished_:
 1. Listen on port defined by user (e.g 8000)
 1. Allow multiple resources types by adding Content-Type HTTP header:
     * JSON (Header: application/json)
-1. XML (Header: application/xml)
+	* XML (Header: application/xml)
 
 ## Libraries:
 
-* Socket – C++ library for handling connection
-* Boost Asio – One of the Boost's portable C++ source libraries. This library is serves a rich interface and API for network programming
+* Socket – C++ low-level library for handling connection
+* Boost Asio – One of the Boost's portable C++ source libraries. This library serves a rich interface and API for network programming
