@@ -1,8 +1,6 @@
 #ifndef WEBSERVER_ASYNC_CLIENT_HPP
 #define WEBSERVER_ASYNC_CLIENT_HPP
 
-#endif //WEBSERVER_ASYNC_CLIENT_HPP
-
 #include <iostream>
 #include <istream>
 #include <ostream>
@@ -16,6 +14,8 @@ using boost::asio::ip::tcp;
 using std::cout;
 using std::string;
 
+
+namespace webserver {
 
 class Client {
 public:
@@ -31,7 +31,7 @@ public:
         request_stream << "Accept: */*\r\n";
         request_stream << "Connection: close\r\n\r\n";
 
-        // Translate server into a list of endpoints
+        // Resolve query into a list of endpoints
         tcp::resolver::query query(server, "http");
         resolver_.async_resolve(query,
             boost::bind(
@@ -70,7 +70,7 @@ private:
         boost::asio::async_read_until(
             socket_, response_, "\r\n",
             boost::bind(
-                &Client::handle_read_status_line, this,
+                &Client::handle_write_request, this,
                 boost::asio::placeholders::error)
         );
     }
@@ -163,3 +163,7 @@ void run_async_client(char *argv1, char *argv2) {
         output_exception(e);
     }
 }
+
+} // namespace webserver
+
+#endif //WEBSERVER_ASYNC_CLIENT_HPP

@@ -1,11 +1,12 @@
 #ifndef WEBSERVER_EXCEPTIONS_HPP
 #define WEBSERVER_EXCEPTIONS_HPP
 
-#endif //WEBSERVER_EXCEPTIONS_HPP
 
 #include <iostream>
 #include <boost/asio.hpp>
 
+
+namespace webserver {
 
 void output_exception(std::exception &e) {
     std::cout << "Exception: " << e.what() << "\n";
@@ -21,3 +22,7 @@ void check_error_code(const boost::system::error_code &error) {
         return;
     }
 }
+
+} // namespace webserver
+
+#endif //WEBSERVER_EXCEPTIONS_HPP

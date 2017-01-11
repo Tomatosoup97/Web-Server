@@ -9,5 +9,5 @@ int main(int argc, char *argv[]) {
       std::cout << "  async_client www.boost.org /LICENSE_1_0.txt\n";
       return 1;
     }
-    run_async_client(argv[1], argv[0]);
+    webserver::run_async_client(argv[1], argv[0]);
 }
