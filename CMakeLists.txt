@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 2.8.8)
 project(WebServer)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -lboost_system -pthread")
 
 include_directories(src)
 include_directories(tests)
@@ -9,8 +9,3 @@ include_directories(lib)
 
 add_subdirectory(src)
 add_subdirectory(tests)
-
-# Boost.Asio
-set(BOOST_COMPONENTS system thread filesystem date_time)
-find_package(Boost 1.54.0 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
