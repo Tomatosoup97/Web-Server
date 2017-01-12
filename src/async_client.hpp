@@ -49,10 +49,9 @@ private:
 
     void handle_resolve(const boost::system::error_code &error,
                         tcp::resolver::iterator endpoint_iterator) {
-        /*
-          Attempt a connection to each endpoint until we establish
-          a successful one.
-        */
+        /* Attempt a connection to each endpoint until we establish
+         * a successful one.
+         * */
         check_error_code(error);
         boost::asio::async_connect(
             socket_, endpoint_iterator,
@@ -63,9 +62,7 @@ private:
     }
 
     void handle_connect(const boost::system::error_code &error) {
-        /*
-          Send request on successful connection.
-        */
+        // Send request on successful connection.
         check_error_code(error);
         boost::asio::async_read_until(
             socket_, response_, "\r\n",
@@ -76,10 +73,8 @@ private:
     }
 
     void handle_write_request(const boost::system::error_code &error) {
-        /*
-          Read the response status line. The buffer will automatically grow
-          to accommodate the entire line.
-        */
+        // Read the response status line. The buffer will automatically grow
+        // to accommodate the entire line.
         check_error_code(error);
         boost::asio::async_read_until(
             socket_, response_, "\r\n",
@@ -154,6 +149,12 @@ private:
 
 
 void run_async_client(char *argv1, char *argv2) {
+    /* Client flow:
+     * 1. Resolve
+     * 2. Connect
+     * 3. Send request
+     * 4. Receive response
+     * */
     try {
         boost::asio::io_service io_service;
         Client c(io_service, argv1, argv2);
