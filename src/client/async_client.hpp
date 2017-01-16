@@ -16,6 +16,7 @@ using std::string;
 
 
 namespace webserver {
+namespace client {
 
 class Client {
 public:
@@ -147,24 +148,7 @@ private:
     }
 };
 
-
-void run_async_client(char *argv1, char *argv2) {
-    /* Client flow:
-     * 1. Resolve
-     * 2. Connect
-     * 3. Send request
-     * 4. Receive response
-     * */
-    try {
-        boost::asio::io_service io_service;
-        Client c(io_service, argv1, argv2);
-        io_service.run();
-    }
-    catch (std::exception &e) {
-        output_exception(e);
-    }
-}
-
+} // namespace client
 } // namespace webserver
 
 #endif //WEBSERVER_ASYNC_CLIENT_HPP
