@@ -30,8 +30,8 @@ public:
         socket_.async_read_some(boost::asio::buffer(buffer_),
             strand.wrap(
                 boost::bind(&connection::handle_read, shared_from_this(),
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred))
+                            boost::asio::placeholders::error,
+                            boost::asio::placeholders::bytes_transferred))
             );
     }
 
@@ -49,7 +49,8 @@ private:
         /* Disable both send and receive on the socket */
         if (e) return;
         boost::system::error_code error_code;
-        socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, error_code);
+        socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both,
+                         error_code);
     }
 
     void handle_read(boost::system::error_code& e) {
