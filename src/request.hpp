@@ -6,14 +6,20 @@
 
 namespace webserver {
 
+typedef struct Headers {
+    std::string name;
+    std::string value;
+} Header;
+
+
 class Request {
 public:
     int http_version;
     int http_subversion;
     std::string method;
     std::string uri;
-    std::map<std::string, std::string> headers;
-    
+    std::vector<Header> headers;
+
     Request() {
     }
 };
