@@ -34,6 +34,7 @@ lo
 build/
 cmake-build-debug
 *.cbp
+web_server
 
 # CMake
 CMakeCache.txt
