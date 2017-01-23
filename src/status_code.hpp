@@ -74,26 +74,26 @@ enum status_codes {
     HTTP_505_HTTP_VERSION_NOT_SUPPORTED = 505,
 };
 
-// Status strings
-const std::string HTTP_200_OK = "200 OK";
-const std::string HTTP_201_CREATED = "201 Created";
-const std::string HTTP_202_ACCEPTED = "202 Accepted";
-const std::string HTTP_204_NO_CONTENT = "204 No Content";
-const std::string HTTP_300_MULTIPLE_CHOICES = "300 Multiple Choices";
-const std::string HTTP_301_MOVED_PERMANENTLY = "301 Moved Permanently";
-const std::string HTTP_302_FOUND = "302 Found";
-const std::string HTTP_304_NOT_MODIFIED = "304 Not Modified";
-const std::string HTTP_307_TEMPORARY_REDIRECT = "307 Temporary Redirect";
-const std::string HTTP_400_BAD_REQUEST = "400 Bad Request";
-const std::string HTTP_401_UNAUTHORIZED = "401 Unauthorized";
-const std::string HTTP_403_FORBIDDEN = "403 Forbidden";
-const std::string HTTP_404_NOT_FOUND = "404 Not Found";
-const std::string HTTP_500_INTERNAL_SERVER_ERROR = "500 Internal Server Error";
-const std::string HTTP_501_NOT_IMPLEMENTED = "501 Not Implemented";
-const std::string HTTP_502_BAD_GATEWAY = "502 Bad Gateway";
-const std::string HTTP_503_SERVICE_UNAVAILABLE = "503 Service Unavailable";
-const std::string HTTP_504_GATEWAY_TIMEOUT = "504 Gateway Timeout";
-const std::string HTTP_505_HTTP_VERSION_NOT_SUPPORTED = "505 HTTP version not supported";
+const std::map<const int, const std::string> status_strings = {
+    {200, "200 OK"},
+    {202, "202 Accepted"},
+    {204, "204 No Content"},
+    {300, "300 Multiple Choices"},
+    {301, "301 Moved Permanently"},
+    {302, "302 Found"},
+    {304, "304 Not Modified"},
+    {307, "307 Temporary Redirect"},
+    {400, "400 Bad Request"},
+    {401, "401 Unauthorized"},
+    {403, "403 Forbidden"},
+    {404, "404 Not Found"},
+    {500, "500 Internal Server Error"},
+    {501, "501 Not Implemented"},
+    {502, "502 Bad Gateway"},
+    {503, "503 Service Unavailable"},
+    {504, "504 Gateway Timeout"},
+    {505, "505 HTTP version not supported"},
+};
 
 } // namespace status
 } // namespace webserver
