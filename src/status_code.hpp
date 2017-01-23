@@ -32,6 +32,9 @@ bool is_server_error(status_codes code){
     return (code >= 500 && code <= 599)
 }
 
+std::string verbose_status_code(status_codes code) {
+    return status_strings[code];
+}
 
 enum status_codes {
     HTTP_100_CONTINUE = 100,
@@ -87,6 +90,7 @@ const std::map<const int, const std::string> status_strings = {
     {401, "401 Unauthorized"},
     {403, "403 Forbidden"},
     {404, "404 Not Found"},
+    {405, "404 Method Not Allowed"},
     {500, "500 Internal Server Error"},
     {501, "501 Not Implemented"},
     {502, "502 Bad Gateway"},
