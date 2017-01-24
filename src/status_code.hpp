@@ -7,6 +7,24 @@
 namespace webserver {
 namespace status {
 
+const std::map<const std::string, const std::string> mime_types = {
+    "html": "text/html",
+    "css": "text/css",
+    "js": "text/js",
+    "json": "application/json",
+    "xml": "application/xml",
+    "jpg": "image/jpg",
+    "png": "image/png",
+    "gif": "image/gif",
+    "default": "text/plain",
+}
+
+const std::string get_mime_type(std::string extension) {
+    std::string mime_type_iter = mime_types.find(extension)
+    if (mime_type_iter == mime_types.end())
+        return mime_types['default'];
+    return mime_type_iter;
+}
 
 bool is_informational(status_codes code){
     return (code >= 100 && code <= 199)
