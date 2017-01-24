@@ -6,6 +6,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/thread.hpp>
 #include "connection.hpp"
+#include "request_handler.hpp"
 
 
 namespace webserver {
@@ -14,10 +15,15 @@ typedef boost::asio::ip::tcp::endpoint tcp_endpoint;
 
 class Server {
 public:
-    Server(int thread_count=1)
+    Server(const std::string path,
+           const std::string &port="8000",
+           int thread_count=1)
             : thread_count_(thread_count)
             , acceptor_(io_service_)
-            , connection_() {
+            , connection_()
+            , signals_(io_service_)
+            , request_handler_(path)
+            , port_(port) {
         setup_server();
     }
 
@@ -32,6 +38,8 @@ private:
     boost::asio::ip::tcp::acceptor acceptor_;
     connection_ptr connection_;
     boost::asio::signal_set signals_;
+    request_handler request_handler_;
+    std::string port_;
 
     void setup_server() {
         set_signals();
@@ -42,7 +50,7 @@ private:
 
     tcp_endpoint create_endpoint() {
         boost::asio::ip::tcp::resolver resolver(io_service_);
-        boost::asio::ip::tcp::resolver::query query("127.0.0.1", "http");
+        boost::asio::ip::tcp::resolver::query query("127.0.0.1", port_);
         tcp_endpoint endpoint = *resolver.resolve(query);
         return endpoint;
     }
@@ -57,14 +65,12 @@ private:
         /* Set signals for process termination */
         signals_.add(SIGINT);
         signals_.add(SIGTERM);
-        #if defined(SIGQUIT);
-            signals_.add(SIGQUIT);
-        #endif
+        signals_.add(SIGQUIT);
         signals_.async_wait(boost::bind(&server::stop, this));
     }
 
     void start_connection() {
-        connection_.reset(new Connection(io_service_));
+        connection_.reset(new Connection(io_service_, request_handler_));
         acceptor_.async_accept(
             connection_->socket(),
             boost::bind(&server::handle_connection, this,
