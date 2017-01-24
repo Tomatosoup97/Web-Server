@@ -17,6 +17,18 @@ public:
 
     Response() {}
 
+    static Response response(status::status_codes status_code,
+                             std::string mime_type = status::mime_types['default']) {
+        Response response;
+        response.status = status_code;
+        response.content = status::verbose_status_code(status_code);
+        response.headers.resize(1);
+        // TODO: Provide more headers
+        response.headers[0].name = "Content-Type";
+        response.headers[0].value = mime_type;
+        return response;
+    }
+
     std::vector<boost::asio::const_buffer> as_buffers() {
         /* Pack response into const buffers */
         std::vector<boost::asio::const_buffer> buffers;
