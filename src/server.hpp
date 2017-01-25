@@ -15,14 +15,14 @@ typedef boost::asio::ip::tcp::endpoint tcp_endpoint;
 
 class Server {
 public:
-    Server(std::string path,
+    Server(std::string location,
            std::string port="8000",
-           int thread_count=1)
+           size_t thread_count=1)
             : thread_count_(thread_count)
             , acceptor_(io_service_)
             , connection_()
             , signals_(io_service_)
-            , request_handler_(path)
+            , request_handler_(location)
             , port_(port) {
         setup_server();
     }
@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    int thread_count_;
+    size_t thread_count_;
     std::vector<boost::thread> thread_poll_;
     boost::asio::io_service io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
