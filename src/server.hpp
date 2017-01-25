@@ -28,18 +28,33 @@ public:
     }
 
     void run() {
-        io_service_.run();
+        initialize_threads_pool();
+        join_threads();
     }
 
 private:
     int thread_count_;
-    std::vector<std::thread> thread_poll_;
+    std::vector<boost::thread> thread_poll_;
     boost::asio::io_service io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
     connection_ptr connection_;
     boost::asio::signal_set signals_;
     request_handler request_handler_;
     std::string port_;
+
+    void initialize_threads_pool() {
+        for (std::size_t i = 0; i < thread_count_; ++i) {
+            boost::thread thread(new boost::thread(
+                  boost::bind(&boost::asio::io_service::run, &io_service_)));
+            thread_poll_.push_back(thread);
+        }
+    }
+
+    void join_threads() {
+        // Wait until all threads complete execution
+        for (std::size_t i = 0; i < thread_poll_.size(); ++i)
+            thread_poll_[i]->join();
+    }
 
     void setup_server() {
         set_signals();
