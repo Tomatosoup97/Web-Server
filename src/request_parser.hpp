@@ -1,5 +1,9 @@
+#ifndef HTTP_SERVER3_REQUEST_PARSER_HPP
+#define HTTP_SERVER3_REQUEST_PARSER_HPP
+
 #include "request.hpp"
 #include "exceptions.hpp"
+#include "status_code.hpp"
 
 
 namespace webserver {
@@ -14,12 +18,12 @@ enum parser_state {
 
 
 class RequestParser {
-    /* Callable instance parsing headers and checking if request is valid
+    /* Callable instance parsing and validating incoming request.
      * */
 public:
     RequestParser() {}
 
-    void parse(Request &request,
+    parser_state parse(Request &request,
                request_buffer buffer_beg,
                request_buffer buffer_end) {
         while (begin != end)
@@ -30,10 +34,6 @@ public:
     void check_request(Request &request) {
         check_http_version();
         check_http_verb();
-    }
-
-    void operator() {
-        parse();
     }
 
 private:
@@ -76,10 +76,10 @@ private:
                 break;
             }
         }
-        if (!is_valid)
-            // TODO: return response with 405 status code
-            output_error("HTTP verb not supported");
+        // TODO: return response with 405 status code
+        if (!is_valid) output_error("HTTP verb not supported");
     }
 };
 
 } // namespace webserver
+#endif // HTTP_SERVER3_REQUEST_PARSER_HPP

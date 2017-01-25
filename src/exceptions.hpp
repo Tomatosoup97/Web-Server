@@ -1,7 +1,6 @@
 #ifndef WEBSERVER_EXCEPTIONS_HPP
 #define WEBSERVER_EXCEPTIONS_HPP
 
-
 #include <iostream>
 #include <boost/asio.hpp>
 

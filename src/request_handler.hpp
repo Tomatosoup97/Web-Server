@@ -2,7 +2,7 @@
 #define HTTP_SERVER3_REQUEST_HANDLER_HPP
 
 #include <string>
-#include <ifstream>
+#include <fstream>
 #include "request.hpp"
 #include "response.hpp"
 #include "status_code.hpp"
@@ -21,8 +21,9 @@ public:
 
     void handle(Request request, Response response) {
         // TODO: Refactor
+        std::string request_uri;
         try {
-            std::string request_uri = url_decode(request.uri);
+            request_uri = url_decode(request.uri);
             is_path_absolute(request_uri);
         }
         catch (const std::exception& e) {
@@ -33,11 +34,11 @@ public:
         if (request_uri[request_uri.size() - 1] == '/') {
             request_uri += DEFAULT_WEB_PAGE;
         }
-        std::size_t last_dot_pos = request_path.find_last_of(".")
+        std::size_t last_dot_pos = request_uri.find_last_of(".");
         std::string extension = request_uri.substr(last_dot_pos + 1);
 
         // Open the file specified in path
-        std::string full_path = doc_root_ + request_path;
+        std::string full_path = location_ + request_uri;
         std::ifstream server_file(full_path.c_str(), std::ios::in | std::ios::binary);
         if (!server_file) {
             response = Response::response(status::HTTP_404_NOT_FOUND);
@@ -47,7 +48,7 @@ public:
         // Write data stream to response
         // TODO: Examine cases where files are very big
         response = Response::response(status::HTTP_200_OK,
-                                      status::get_mime_type(extension);
+                                      status::get_mime_type(extension));
         char buffer[RESPONSE_CHUNK_SIZE];
         while (server_file.read(buffer, sizeof(buffer)).gcount() > 0)
             response.content.append(buffer, server_file.gcount());

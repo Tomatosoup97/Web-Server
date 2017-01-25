@@ -2,57 +2,55 @@
 #define WEBSERVER_STATUS_CODE_HPP
 
 #include <boost/asio.hpp>
+#include <map>
+#include <string>
 
 
 namespace webserver {
 namespace status {
 
 const std::map<const std::string, const std::string> mime_types = {
-    "html": "text/html",
-    "css": "text/css",
-    "js": "text/js",
-    "json": "application/json",
-    "xml": "application/xml",
-    "jpg": "image/jpg",
-    "png": "image/png",
-    "gif": "image/gif",
-    "default": "text/plain",
-}
+        {"html", "text/html"},
+        {"css", "text/css"},
+        {"js", "text/js"},
+        {"json", "application/json"},
+        {"xml", "application/xml"},
+        {"jpg", "image/jpg"},
+        {"png", "image/png"},
+        {"gif", "image/gif"},
+        {"default", "text/plain"},
+};
 
-const std::string get_mime_type(std::string extension) {
-    std::string mime_type_iter = mime_types.find(extension)
-    if (mime_type_iter == mime_types.end())
-        return mime_types['default'];
-    return mime_type_iter;
+const std::string get_mime_type(std::string extension="default") {
+    if (mime_types.find(extension) == mime_types.end())
+        return mime_types.at("default");
+    return mime_types.find(extension)->first;
 }
 
 bool is_informational(status_codes code){
-    return (code >= 100 && code <= 199)
+    return (code >= 100 && code <= 199);
 }
 
 
 bool is_success(status_codes code){
-    return (code >= 200 && code <= 299)
+    return (code >= 200 && code <= 299);
 }
 
 
 bool is_redirect(status_codes code){
-    return (code >= 300 && code <= 399)
+    return (code >= 300 && code <= 399);
 }
 
 
 bool is_client_error(status_codes code){
-    return (code >= 400 && code <= 499)
+    return (code >= 400 && code <= 499);
 }
 
 
 bool is_server_error(status_codes code){
-    return (code >= 500 && code <= 599)
+    return (code >= 500 && code <= 599);
 }
 
-std::string verbose_status_code(status_codes code) {
-    return status_strings[code];
-}
 
 enum status_codes {
     HTTP_100_CONTINUE = 100,
@@ -116,6 +114,16 @@ const std::map<const int, const std::string> status_strings = {
     {504, "504 Gateway Timeout"},
     {505, "505 HTTP version not supported"},
 };
+
+std::string verbose_status_code(status_codes code) {
+    std::string result;
+    try {
+        result = status_strings.at(code);
+    } catch (const std::exception& e) {
+        result = status_strings.at(400);
+    };
+    return result;
+}
 
 } // namespace status
 } // namespace webserver

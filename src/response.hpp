@@ -3,6 +3,8 @@
 
 #include <boost/asio.hpp>
 #include "status_code.hpp"
+#include <string>
+#include <map>
 
 
 namespace webserver {
@@ -18,9 +20,9 @@ public:
     Response() {}
 
     static Response response(status::status_codes status_code,
-                             std::string mime_type = status::mime_types['default']) {
+                             std::string mime_type = status::get_mime_type()) {
         Response response;
-        response.status = status_code;
+        response.status_code = status_code;
         response.content = status::verbose_status_code(status_code);
         response.headers.resize(1);
         // TODO: Provide more headers
@@ -33,21 +35,22 @@ public:
         /* Pack response into const buffers */
         std::vector<boost::asio::const_buffer> buffers;
         buffers.push_back(boost::asio::buffer(
-            status::verbose_status_code(status_code));
+                status::verbose_status_code(status_code)));
         push_headers_as_buffers(buffers);
         buffers.push_back(boost::asio::buffer(content));
-        return buffers
+        return buffers;
     }
 
 private:
     void push_headers_as_buffers(std::vector<boost::asio::const_buffer> buffers) {
+        const std::string separator = ": ";
+        const std::string carriage_newline = "\r\n";
         for (std::size_t i=0; i < headers.size(); ++i) {
-            buffers.push_back(boost::asio::bufffer(headers[i].name));
-            buffers.push_back(boost::asio::bufffer(": "));
-            buffers.push_back(boost::asio::bufffer(headers[i].value));
-            buffers.push_back(boost::asio::bufffer("\r\n");
+            buffers.push_back(boost::asio::buffer(headers[i].name));
+            buffers.push_back(boost::asio::buffer(separator));
+            buffers.push_back(boost::asio::buffer(headers[i].value));
+            buffers.push_back(boost::asio::buffer(carriage_newline));
         }
-        buffers.push_back(boost::asio::bufffer("\r\n");
     }
 };
 

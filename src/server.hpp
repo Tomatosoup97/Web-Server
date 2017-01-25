@@ -15,8 +15,8 @@ typedef boost::asio::ip::tcp::endpoint tcp_endpoint;
 
 class Server {
 public:
-    Server(const std::string path,
-           const std::string &port="8000",
+    Server(std::string path,
+           std::string port="8000",
            int thread_count=1)
             : thread_count_(thread_count)
             , acceptor_(io_service_)
@@ -39,7 +39,7 @@ private:
     boost::asio::ip::tcp::acceptor acceptor_;
     connection_ptr connection_;
     boost::asio::signal_set signals_;
-    request_handler request_handler_;
+    RequestHandler request_handler_;
     std::string port_;
 
     void initialize_threads_pool() {
@@ -53,7 +53,7 @@ private:
     void join_threads() {
         // Wait until all threads complete execution
         for (std::size_t i = 0; i < thread_poll_.size(); ++i)
-            thread_poll_[i]->join();
+            thread_poll_[i].join();
     }
 
     void setup_server() {
@@ -81,14 +81,14 @@ private:
         signals_.add(SIGINT);
         signals_.add(SIGTERM);
         signals_.add(SIGQUIT);
-        signals_.async_wait(boost::bind(&server::stop, this));
+        signals_.async_wait(boost::bind(&Server::stop, this));
     }
 
     void start_connection() {
         connection_.reset(new Connection(io_service_, request_handler_));
         acceptor_.async_accept(
             connection_->socket(),
-            boost::bind(&server::handle_connection, this,
+            boost::bind(&Server::handle_connection, this,
                         boost::asio::placeholders::error)
         );
     }
