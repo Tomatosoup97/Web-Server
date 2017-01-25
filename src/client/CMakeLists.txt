@@ -3,7 +3,7 @@ project(async_http_client)
 
 
 set(HEADER_FILES )
-set(SOURCE_FILES client_runner.hpp async_client.hpp)
+set(SOURCE_FILES main.cpp async_client.hpp)
 
 add_executable(async_http_client ${SOURCE_FILES})
 

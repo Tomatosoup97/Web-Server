@@ -3,7 +3,10 @@ project(web_server)
 
 
 set(HEADER_FILES )
-set(SOURCE_FILES main.cpp async_client.hpp exceptions.hpp)
+set(SOURCE_FILES
+        main.cpp connection.hpp exceptions.hpp
+        request.hpp request_handler.hpp response.hpp
+        server.hpp status_code.hpp)
 
 add_executable(web_server ${SOURCE_FILES})
 
