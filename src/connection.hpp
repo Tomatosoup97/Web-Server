@@ -59,7 +59,7 @@ private:
 
     void handle_reading_date(boost::system::error_code& e,
                              std::size_t bytes_transferred) {
-        /* Handler which parse incoming request and return a response */
+        /* Handler which parse incoming request and write a response */
         if (e) return;
         parse_state = request_parser.parse(request_, buffer_.data(),
                                            buffer_.data() + bytes_transferred);
@@ -72,11 +72,11 @@ private:
                 read_data();
                 break;
             case failed:
-                response_ = response.response(HTTP_400_BAD_REQUEST);
+                response_ = Response::response(HTTP_400_BAD_REQUEST);
                 write_response();
                 break;
             default:
-                respone_ = response.response(HTTP_500_INTERNAL_SERVER_ERROR);
+                respone_ = Response::response(HTTP_500_INTERNAL_SERVER_ERROR);
                 write_response();
         }
     }
