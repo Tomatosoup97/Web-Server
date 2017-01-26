@@ -27,31 +27,6 @@ const std::string get_mime_type(std::string extension="default") {
     return mime_types.find(extension)->first;
 }
 
-bool is_informational(status_codes code){
-    return (code >= 100 && code <= 199);
-}
-
-
-bool is_success(status_codes code){
-    return (code >= 200 && code <= 299);
-}
-
-
-bool is_redirect(status_codes code){
-    return (code >= 300 && code <= 399);
-}
-
-
-bool is_client_error(status_codes code){
-    return (code >= 400 && code <= 499);
-}
-
-
-bool is_server_error(status_codes code){
-    return (code >= 500 && code <= 599);
-}
-
-
 enum status_codes {
     HTTP_100_CONTINUE = 100,
     HTTP_101_SWITCHING_PROTOCOLS = 101,
@@ -92,6 +67,30 @@ enum status_codes {
     HTTP_504_GATEWAY_TIMEOUT = 504,
     HTTP_505_HTTP_VERSION_NOT_SUPPORTED = 505,
 };
+
+bool is_informational(status_codes code) {
+    return (code >= 100 && code <= 199);
+}
+
+
+bool is_success(status_codes code){
+    return (code >= 200 && code <= 299);
+}
+
+
+bool is_redirect(status_codes code){
+    return (code >= 300 && code <= 399);
+}
+
+
+bool is_client_error(status_codes code){
+    return (code >= 400 && code <= 499);
+}
+
+
+bool is_server_error(status_codes code){
+    return (code >= 500 && code <= 599);
+}
 
 const std::map<const int, const std::string> status_strings = {
     {200, "200 OK"},
